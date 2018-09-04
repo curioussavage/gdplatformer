@@ -5,25 +5,36 @@ var Player = preload("res://player.tscn")
 
 # viewport containers
 onready var viewports1 = $viewports
-onready var viewports2 = $viewports2 # only added when there are more than 2 players
+onready var viewports2 = $viewports2 # only shown when there are more than 2 players
 
 var viewports = []
 
 func _ready():
 	setup_screens()
-	var level = make_world()
+	var map = make_world()
 
 	## add the map scene to the main viewport
-	viewports[0].add_child(level)
+	viewports[0].add_child(map)
 	if viewports.size() > 1:
 		var i = 1
 		while i < viewports.size():
 			viewports[i].world_2d = viewports[0].world_2d
 			i += 1
 
+	var spawner = map.get_node("spawner")
+	for player in game_state.players:
+		var player_node = Player.instance()
+		player_node.id = player.id
+		map.add_child(player_node)
+		player_node.position = spawner.position + Vector2(player.id + 10, 0)
+		viewports[player.id].get_node("Camera2D").target = player_node
+
+	set_camera_limits()
+
 func set_camera_limits():
-	var map_limits = viewports[0].get_node("tile_map").get_used_rect()
-	var map_cellsize = viewports[0].get_node("tile_map").cell_size
+	var map = viewports[0].get_node("stage/tile_map")
+	var map_limits = map.get_used_rect()
+	var map_cellsize = map.cell_size
 
 	for viewport in viewports:
 		var cam = viewport.get_node("Camera2D")
@@ -36,14 +47,8 @@ func make_world():
 	## might want to keep a ref to this... or maybe not
 	var scene = load(game_state.level)
 	var map = scene.instance()
-	var spawner = map.get_node("spawner")
-	# add player instances
-	for player in game_state.players:
-		var player_node = Player.instance()
-		player_node.id = player.id
-		map.add_child(player_node)
-		player_node.position = spawner.position + Vector2(player.id + 10, 0)
-		viewports[player.id].get_node("Camera2D").target = player_node
+
+
 	return map
 
 func get_world():
