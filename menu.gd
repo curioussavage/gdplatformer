@@ -12,5 +12,6 @@ func _on_start_pressed():
 	for i in range(0, player_num + 1):
 		game_state.players.append({ "id": i, name: ""})
 
-	SceneSwitcher.goto_scene("res://main.tscn")
+	SceneSwitcher.goto_scene("res://level1.tscn")
+
 

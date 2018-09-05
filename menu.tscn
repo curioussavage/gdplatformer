@@ -2,7 +2,7 @@
 
 [ext_resource path="res://menu.gd" type="Script" id=1]
 
-[node name="interface" type="Control"]
+[node name="interface" type="Control" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -135,8 +135,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 357.0
-margin_right = 442.0
+margin_left = 380.0
+margin_right = 419.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -150,7 +150,6 @@ action_mode = 0
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Players"
 flat = false
 align = 1
 items = [  ]
